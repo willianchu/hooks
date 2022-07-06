@@ -1,7 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 export default function App() {
   const [resourceType, setResourceType] = useState('posts');
+
+  useEffect(() => {
+    console.log("useEffect runs every time the component is rendered");
+  }, [resourceType]);
 
   return (
     <>
