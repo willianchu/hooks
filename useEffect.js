@@ -2,10 +2,15 @@ import React, { useState, useEffect } from 'react';
 
 export default function App() {
   const [resourceType, setResourceType] = useState('posts');
+  const [items, setItems] = useState([]);
 
   useEffect(() => {
     console.log("useEffect runs every time the component is rendered");
-  }, [resourceType]);
+    fetch(`https://jsonplaceholder.typicode.com/${resourceType}`)	// fetching the data from the API
+    .then(response => response.json())
+    .then(dataJSON => setItems(dataJSON));
+  }, [resourceType]); // but only if resourceType changes
+  // only runs on mount [] and unmount
 
   return (
     <>
@@ -15,6 +20,9 @@ export default function App() {
       <button onClick={() => setResourceType('users')}>Users</button>
     </div>
     <h1>{resourceType}</h1>
+    {items.map(item => {
+      return <pre>{JSON.stringify(item)}</pre>
+    })}
     </>
   )
 }
